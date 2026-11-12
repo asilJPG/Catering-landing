@@ -12,15 +12,21 @@ const RENTAL_TABS: CatalogTab[] = [
 export function EquipmentCatalog() {
   const order = useOrder();
 
+  // Посуда считается на гостя: один клик добавляет столько комплектов, сколько гостей в заказе.
+  const handleAdd = (id: string, delta: number) => {
+    const item = ALL_RENTALS.find(i => i.id === id);
+    order.addRental(id, item?.perGuest ? delta * order.guests : delta);
+  };
+
   return (
     <CatalogSection
       id="equipment"
-      title="Посуда и мебель"
-      subtitle="Фарфор, эко-сервировка, мармиты, столы и стулья с доставкой на площадку."
-      tabsLabel="Посуда и мебель"
+      title="Посуда, мебель и персонал"
+      subtitle="Фарфор, мармиты, столы, скатерти, официанты и бармены — привезём и обслужим."
+      tabsLabel="Посуда, мебель и персонал"
       tabs={RENTAL_TABS}
       getQty={order.rentalQty}
-      onAdd={order.addRental}
+      onAdd={handleAdd}
     />
   );
 }

@@ -103,85 +103,182 @@ export const FORMATS: Format[] = [
   },
 ];
 
+/** Иконка-заглушка для позиций, у которых нет подходящего фото. */
+export type IconKey =
+  | 'utensils'
+  | 'soup'
+  | 'drumstick'
+  | 'beef'
+  | 'flame'
+  | 'fish'
+  | 'sandwich'
+  | 'salad'
+  | 'wheat'
+  | 'martini'
+  | 'apple'
+  | 'cherry'
+  | 'grape'
+  | 'citrus'
+  | 'nut'
+  | 'candy'
+  | 'cake'
+  | 'cookie'
+  | 'croissant'
+  | 'coffee'
+  | 'cupsoda'
+  | 'glass'
+  | 'flower'
+  | 'table'
+  | 'user';
+
 export type MenuItem = {
   id: string;
   name: string;
   desc: string;
   unit: string;
+  /** Цена в сўмах за единицу из поля unit. Среднее по прайсам из присланных файлов. */
   price: number;
-  image: string;
+  /** Путь к фото. Если фото нет — рисуется плашка с иконкой. */
+  image?: string;
+  icon?: IconKey;
+  /** Шаг заказа: штучные позиции добавляются сразу по 10, а не по одной. */
+  step?: number;
   featured?: boolean;
 };
 
+const PIECE = 'за 1 шт · кратно 10';
+const PLATE = 'тарелка';
+const BIG_DISH = 'большое блюдо';
+const MARTINI = 'мартинка';
+const PORTION = 'порция';
+
+/**
+ * Меню собрано из прайсов и смет (фуршеты «по 100–300», смета на 19 января, меню Malibu от 28 июля).
+ * Цена — среднее между всеми прайсами, где позиция встречалась (до 100 000 — округление до 500 сўм,
+ * выше — до 5 000). Позиции без цены ни в одном файле в каталог не включены.
+ */
 export const MAIN_MENU: {id: string; title: string; items: MenuItem[]}[] = [
   {
-    id: 'snacks',
-    title: 'Закуски и канапе',
+    id: 'hot',
+    title: 'Горячее',
     items: [
-      {id: 'snack-roastbeef', name: 'Канапе с ростбифом', desc: 'вяленый томат, горчичный крем, микрозелень', unit: '20 шт · 420 г', price: 0, image: '/images/dish-canapes.jpg', featured: true},
-      {id: 'snack-samsa', name: 'Мини-самса с тыквой и говядиной', desc: 'слоёное тесто, зира, чёрный кунжут', unit: '20 шт · 600 г', price: 0, image: '/images/format-coffee.jpg', featured: true},
-      {id: 'snack-salmon', name: 'Тарталетки с форелью', desc: 'мусс из копчёной форели, укроп, огурец', unit: '20 шт · 400 г', price: 0, image: '/images/dish-salmon.jpg', featured: true},
-      {id: 'snack-bruschetta', name: 'Брускетта с баклажаном', desc: 'печёный баклажан, сузьма, зёрна граната', unit: '20 шт · 460 г', price: 0, image: '/images/dish-bruschetta.jpg'},
-      {id: 'snack-cheese', name: 'Сырное плато с мёдом', desc: 'халяль-сыры, грецкий орех, инжир, виноград', unit: '1 кг · на 8 персон', price: 0, image: '/images/format-buffet.jpg'},
-      {id: 'snack-meat', name: 'Мясное ассорти Халяль', desc: 'казы, говяжий язык, рулет из индейки, хрен', unit: '1 кг · на 8 персон', price: 0, image: '/images/dish-canapes.jpg'},
-      {id: 'snack-sliders', name: 'Мини-бургеры с говядиной', desc: 'бриошь, мраморная котлета, чеддер, соус', unit: '16 шт · 960 г', price: 0, image: '/images/dish-bruschetta.jpg'},
-      {id: 'snack-rolls', name: 'Рулетики из баклажана с орехом', desc: 'грецкий орех, кинза, чесночная сузьма', unit: '20 шт · 500 г', price: 0, image: '/images/dish-salad.jpg'},
+      {id: 'hot-samsa-meat', name: 'Мини-самса с рубленым мясом', desc: 'слоёное тесто, сочная мясная начинка с луком', unit: PIECE, price: 9500, step: 10, icon: 'wheat', featured: true},
+      {id: 'hot-samsa-chicken', name: 'Мини-самса с курицей', desc: 'нежное куриное филе в слоёном тесте', unit: PIECE, price: 12000, step: 10, icon: 'wheat'},
+      {id: 'hot-samsa-pumpkin', name: 'Мини-самса с тыквой', desc: 'сладковатая тыква и лук в слоёном тесте', unit: PIECE, price: 11000, step: 10, icon: 'wheat'},
+      {id: 'hot-samsa-greens', name: 'Мини-самса с зеленью', desc: 'свежая зелень в хрустящем тесте', unit: PIECE, price: 11000, step: 10, icon: 'wheat'},
+      {id: 'hot-crispy-chicken', name: 'Курочка в хрустящей панировке', desc: 'золотистая корочка и сочное мясо внутри', unit: PIECE, price: 6000, step: 10, icon: 'drumstick'},
+      {id: 'hot-shurpa', name: 'Шурпа «Илик»', desc: 'наваристый бульон на косточке', unit: PORTION, price: 30000, icon: 'soup'},
+      {id: 'hot-pirozhki', name: 'Горячие пирожки', desc: 'румяные пирожки к первому блюду', unit: PORTION, price: 30000, icon: 'wheat'},
+      {id: 'hot-plov', name: 'Праздничный плов', desc: 'рассыпчатый плов по-узбекски', unit: PORTION, price: 32000, icon: 'utensils', featured: true},
+    ],
+  },
+  {
+    id: 'platters',
+    title: 'Ассорти и плато',
+    items: [
+      {id: 'pl-meat-uz', name: 'Мясное ассорти по-узбекски', desc: 'казы, писта-гушт, тандыр-гушт, сырли-гушт, тил-рулет', unit: PLATE, price: 120000, icon: 'beef', featured: true},
+      {id: 'pl-meat-deli', name: 'Мясная нарезка', desc: 'ветчина, копчёная колбаса, индейка, курица, говядина', unit: BIG_DISH, price: 210000, icon: 'beef'},
+      {id: 'pl-tandir', name: 'Мясо из тандыра', desc: 'нежное мясо, томлёное в тандыре', unit: PLATE, price: 85000, icon: 'flame'},
+      {id: 'pl-cheese', name: 'Сырное ассорти', desc: 'нарезка из нескольких сортов сыра', unit: PLATE, price: 80000, icon: 'utensils'},
+      {id: 'pl-cheese-big', name: 'Сырное плато «Четыре сыра»', desc: 'четыре вида сыра для большого стола', unit: BIG_DISH, price: 200000, icon: 'utensils'},
+      {id: 'pl-veg', name: 'Овощное ассорти', desc: 'помидоры, огурцы, редис, брынза, свежая зелень', unit: PLATE, price: 35000, icon: 'salad'},
+      {id: 'pl-veg-big', name: 'Овощное плато', desc: 'свежие сезонные овощи крупной нарезкой', unit: BIG_DISH, price: 150000, icon: 'salad'},
+      {id: 'pl-fish', name: 'Рыбное ассорти', desc: 'нарезка из рыбных деликатесов', unit: PLATE, price: 180000, icon: 'fish'},
+      {id: 'pl-norin', name: 'Норин по-домашнему', desc: 'традиционная холодная закуска', unit: PLATE, price: 35000, icon: 'utensils'},
+      {id: 'pl-bread', name: 'Хлебная корзина', desc: 'ассорти свежих лепёшек и хлеба', unit: 'хлебница', price: 30000, icon: 'wheat'},
+      {id: 'pl-olives', name: 'Оливки и маслины', desc: 'в стеклянной мартинке', unit: MARTINI, price: 30000, icon: 'martini'},
+    ],
+  },
+  {
+    id: 'canapes',
+    title: 'Канапе и брускетты',
+    items: [
+      {id: 'cn-sandwich', name: 'Мини-сэндвич «Фирменный»', desc: 'на один укус, подача на шпажке', unit: PIECE, price: 15000, step: 10, icon: 'sandwich'},
+      {id: 'cn-club', name: 'Клаб-сэндвич', desc: 'классический клаб-сэндвич на поджаренном хлебе', unit: PIECE, price: 25000, step: 10, icon: 'sandwich'},
+      {id: 'cn-brus-beef', name: 'Брускетта с копчёной вырезкой', desc: 'говядина, огурцы, черри, хрустящий багет', unit: PIECE, price: 16500, step: 10, image: '/images/dish-bruschetta.jpg', featured: true},
+      {id: 'cn-brus-salmon', name: 'Брускетта с лососем', desc: 'лосось, маринованные огурцы, сливочный сыр, багет', unit: PIECE, price: 35000, step: 10, icon: 'fish'},
+      {id: 'cn-brus-turkey', name: 'Брускетта с индейкой', desc: 'черри в кисло-сладком соусе, тимьян, багет', unit: PIECE, price: 14000, step: 10, icon: 'utensils'},
+      {id: 'cn-canape-beef', name: 'Канапе с говядиной', desc: 'говядина, огурцы, помидор, оливки', unit: PIECE, price: 15000, step: 10, image: '/images/hero-buffet.jpg', featured: true},
+      {id: 'cn-canape-cheese', name: 'Канапе «Три сыра»', desc: 'три вида сыра и маслины', unit: PIECE, price: 15500, step: 10, image: '/images/format-buffet.jpg'},
+      {id: 'cn-canape-greek', name: 'Канапе «Греческое»', desc: 'фета, маслины, огурцы, черри', unit: PIECE, price: 14000, step: 10, icon: 'utensils'},
+      {id: 'cn-tart-caviar', name: 'Тарталетка с красной икрой', desc: 'красная икра и сливочное масло', unit: PIECE, price: 60000, step: 10, icon: 'fish'},
+      {id: 'cn-tart-salmon', name: 'Тарталетка с лососем', desc: 'хрустящая корзинка с нежным лососем', unit: PIECE, price: 30000, step: 10, icon: 'fish'},
     ],
   },
   {
     id: 'salads',
-    title: 'Салаты и боулы',
+    title: 'Салаты',
     items: [
-      {id: 'salad-achichuk', name: 'Ачичук с базиликом', desc: 'спелые томаты, красный лук, сумах', unit: '1 кг · 5 порций', price: 0, image: '/images/dish-salad.jpg', featured: true},
-      {id: 'salad-quinoa', name: 'Боул с киноа и свёклой', desc: 'печёная свёкла, фета, грецкий орех, мята', unit: '1 кг · 5 порций', price: 0, image: '/images/format-lunch.jpg', featured: true},
-      {id: 'salad-beef', name: 'Тёплый салат с говядиной', desc: 'хрустящий баклажан, сладкий перец, кинза', unit: '1 кг · 5 порций', price: 0, image: '/images/dish-bruschetta.jpg', featured: true},
-      {id: 'salad-caesar', name: 'Цезарь с курицей гриль', desc: 'листья ромэн, твёрдый сыр, домашние гренки', unit: '1 кг · 5 порций', price: 0, image: '/images/dish-salad.jpg'},
-      {id: 'salad-greek', name: 'Греческий с брынзой', desc: 'томаты черри, огурец, оливки, орегано', unit: '1 кг · 5 порций', price: 0, image: '/images/format-lunch.jpg'},
-      {id: 'salad-salmon-avocado', name: 'Салат с форелью и авокадо', desc: 'шпинат, слабосолёная форель, цитрусовая заправка', unit: '1 кг · 5 порций', price: 0, image: '/images/dish-salmon.jpg'},
-      {id: 'salad-bahor', name: 'Весенний салат «Бахор»', desc: 'редис, свежий огурец, говяжья вырезка, зелень', unit: '1 кг · 5 порций', price: 0, image: '/images/dish-salad.jpg'},
-      {id: 'salad-hummus', name: 'Хумус с нутом и питой', desc: 'тахини, зира, оливковое масло, кунжут', unit: '800 г · на 6 персон', price: 0, image: '/images/dish-bruschetta.jpg'},
+      {id: 'sl-beef', name: 'Нежная говядина', desc: 'говядина, помидоры, огурцы, сыр, свежая зелень', unit: PLATE, price: 36000, image: '/images/dish-salad.jpg', featured: true},
+      {id: 'sl-eggplant', name: 'Хрустящий баклажан', desc: 'баклажан в хрустящем кляре и свежие овощи', unit: PLATE, price: 36000, icon: 'salad'},
+      {id: 'sl-nest', name: 'Гнездо глухаря', desc: 'индейка, яйцо, хрустящий картофель, майонез', unit: PLATE, price: 36000, icon: 'salad'},
+      {id: 'sl-spring', name: 'Салат «Весна»', desc: 'брынза, айсберг, помидоры, зелень', unit: PLATE, price: 36000, icon: 'salad'},
+      {id: 'sl-greek', name: 'Греческий салат', desc: 'классический греческий салат со свежими овощами', unit: PLATE, price: 36000, icon: 'salad'},
+      {id: 'sl-arugula', name: 'Салат с рукколой', desc: 'руккола и свежие овощи', unit: PLATE, price: 36000, icon: 'salad'},
     ],
   },
   {
-    id: 'hot',
-    title: 'Горячие блюда',
+    id: 'fruits',
+    title: 'Фрукты и ягоды',
     items: [
-      {id: 'hot-plov', name: 'Праздничный плов', desc: 'баранина, жёлтая морковь, нут, изюм, зира', unit: 'на 8 персон · 3.2 кг', price: 0, image: '/images/format-banquet.jpg', featured: true},
-      {id: 'hot-shashlik', name: 'Шашлык-ассорти на углях', desc: 'баранина, говядина, курица, маринованный лук', unit: 'на 8 персон · 2.8 кг', price: 0, image: '/images/dish-grill.jpg', featured: true},
-      {id: 'hot-salmon', name: 'Лосось на гриле', desc: 'сливочный соус с зеленью, молодой картофель', unit: 'на 6 персон · 1.8 кг', price: 0, image: '/images/dish-salmon.jpg', featured: true},
-      {id: 'hot-kazan', name: 'Казан-кебаб из говядины', desc: 'томлёная вырезка, золотистый картофель, специи', unit: 'на 6 персон · 2.4 кг', price: 0, image: '/images/dish-grill.jpg'},
-      {id: 'hot-manti', name: 'Манты с рубленным мясом', desc: 'тонкое тесто, сочная говядина, сметана и сузьма', unit: '24 шт · на 6 персон', price: 0, image: '/images/format-banquet.jpg'},
-      {id: 'hot-beef-medallions', name: 'Медальоны из телятины', desc: 'перечный соус деми-глас, пюре с зеленью', unit: 'на 6 персон · 1.8 кг', price: 0, image: '/images/dish-grill.jpg'},
-      {id: 'hot-chicken', name: 'Цыплёнок с розмарином', desc: 'запечённый с лимоном и молодым картофелем', unit: 'на 6 персон · 2.0 кг', price: 0, image: '/images/format-lunch.jpg'},
-      {id: 'hot-veg', name: 'Овощи на углях', desc: 'баклажан, кабачок, перец, зелёное масло', unit: 'на 6 персон · 1.5 кг', price: 0, image: '/images/dish-grill.jpg'},
+      {id: 'fr-cup', name: 'Фрукты в стаканчиках', desc: 'порционные фрукты на один стакан', unit: 'стаканчик · кратно 10', price: 13000, step: 10, icon: 'apple', featured: true},
+      {id: 'fr-skewers', name: 'Фруктовые шпажки', desc: 'свежие фрукты на шпажках', unit: PIECE, price: 13000, step: 10, icon: 'apple'},
+      {id: 'fr-strawberry', name: 'Клубника в мартинке', desc: 'сочная клубника', unit: MARTINI, price: 15000, icon: 'cherry'},
+      {id: 'fr-cherry', name: 'Вишня в мартинке', desc: 'спелая вишня', unit: MARTINI, price: 15000, icon: 'cherry'},
+      {id: 'fr-apricot', name: 'Абрикос (урюк) в мартинке', desc: 'сезонный урюк', unit: MARTINI, price: 15000, icon: 'citrus'},
+      {id: 'fr-melon', name: 'Арбуз и дыня', desc: 'охлаждённая нарезка', unit: PLATE, price: 15000, icon: 'citrus'},
+      {id: 'fr-grape', name: 'Виноград «Ризамат»', desc: 'сладкий сорт винограда', unit: PLATE, price: 25000, icon: 'grape'},
+      {id: 'fr-peach', name: 'Персики белые и красные', desc: 'сочные сезонные персики', unit: PLATE, price: 20000, icon: 'citrus'},
+      {id: 'fr-assorted', name: 'Фруктовое ассорти', desc: 'сезонные фрукты на тарелке', unit: PLATE, price: 80000, icon: 'apple'},
+      {id: 'fr-platter', name: 'Большое фруктовое плато', desc: 'сезонные фрукты для большого стола', unit: 'плато', price: 400000, icon: 'apple'},
+      {id: 'fr-vase', name: 'Фруктовая ваза', desc: 'высокая ваза с фруктами в центр стола', unit: 'ваза', price: 100000, icon: 'grape'},
+    ],
+  },
+  {
+    id: 'nuts',
+    title: 'Орехи и сладости',
+    items: [
+      {id: 'nt-pistachio', name: 'Фисташки', desc: 'турецкие и иранские фисташки', unit: MARTINI, price: 44000, icon: 'nut'},
+      {id: 'nt-almond', name: 'Миндаль', desc: 'крупный миндаль разных сортов', unit: MARTINI, price: 39000, icon: 'nut'},
+      {id: 'nt-pecan', name: 'Орех пекан', desc: 'в стеклянной мартинке', unit: MARTINI, price: 37000, icon: 'nut'},
+      {id: 'nt-cashew', name: 'Кешью', desc: 'жареный и солёный', unit: MARTINI, price: 38000, icon: 'nut'},
+      {id: 'nt-dried', name: 'Сухофрукты', desc: 'ассорти сухофруктов', unit: MARTINI, price: 35000, icon: 'grape'},
+      {id: 'nt-candy', name: 'Конфеты в мартинке', desc: 'ассорти конфет', unit: MARTINI, price: 35000, icon: 'candy'},
+      {id: 'nt-candy-big', name: 'Конфеты ассорти', desc: 'большое блюдо для стола', unit: BIG_DISH, price: 135000, icon: 'candy'},
     ],
   },
   {
     id: 'desserts',
     title: 'Десерты',
     items: [
-      {id: 'des-baklava', name: 'Мини-пахлава с фисташкой', desc: 'хрустящее тесто фило, фисташка, горный мёд', unit: '24 шт · 720 г', price: 0, image: '/images/dish-dessert.jpg', featured: true},
-      {id: 'des-eclairs', name: 'Эклеры ассорти', desc: 'ваниль, тёмный шоколад, фисташка, малина', unit: '16 шт · 640 г', price: 0, image: '/images/dish-dessert.jpg', featured: true},
-      {id: 'des-fruits', name: 'Сезонные фрукты', desc: 'клубника, виноград, груша, гранат и дыня', unit: '2 кг · на 8 персон', price: 0, image: '/images/format-buffet.jpg'},
-      {id: 'des-panna', name: 'Панна-котта с облепихой', desc: 'сливки, мадагаскарская ваниль, облепиховый соус', unit: '12 шт · 960 г', price: 0, image: '/images/format-coffee.jpg'},
-      {id: 'des-cheesecake', name: 'Мини-чизкейк Сан-Себастьян', desc: 'карамельная корочка, ягодный соус', unit: '12 шт · 900 г', price: 0, image: '/images/dish-dessert.jpg'},
-      {id: 'des-tart', name: 'Тарталетки с малиной и кремом', desc: 'песочная основа, заварной крем, свежая ягода', unit: '16 шт · 680 г', price: 0, image: '/images/format-coffee.jpg'},
-      {id: 'des-cakepops', name: 'Восточные сладости с орехами', desc: 'чак-чак, нуга, миндаль и курага в шоколаде', unit: '1 кг · на 10 персон', price: 0, image: '/images/dish-dessert.jpg'},
-      {id: 'des-croissant', name: 'Мини-круассаны со сливками', desc: 'слоёная выпечка к чаю и кофе-брейку', unit: '20 шт · 700 г', price: 0, image: '/images/format-coffee.jpg'},
+      {id: 'ds-fruit', name: 'Мини-пирожное «Фруктовое»', desc: 'лёгкий бисквит со свежими фруктами', unit: PIECE, price: 8000, step: 10, icon: 'cake'},
+      {id: 'ds-chocolate', name: 'Мини-пирожное «Шоколадное»', desc: 'шоколадный бисквит и крем', unit: PIECE, price: 9000, step: 10, icon: 'cake'},
+      {id: 'ds-coffee', name: 'Мини-пирожное «Кофейня»', desc: 'кофейный крем на бисквите', unit: PIECE, price: 8500, step: 10, icon: 'cake'},
+      {id: 'ds-eclair', name: 'Эклеры в ассортименте', desc: 'заварное тесто и нежный крем', unit: PIECE, price: 25500, step: 10, icon: 'cake'},
+      {id: 'ds-macaron', name: 'Макаронс в ассортименте', desc: 'миндальное печенье с кремом разных вкусов', unit: PIECE, price: 15000, step: 10, image: '/images/dish-dessert.jpg', featured: true},
+      {id: 'ds-croissant', name: 'Круассаны', desc: 'слоёные круассаны свежей выпечки', unit: PIECE, price: 5500, step: 10, image: '/images/format-coffee.jpg', featured: true},
+      {id: 'ds-hedgehog', name: 'Пирожное «Ёжик»', desc: 'шоколадное пирожное в форме ёжика', unit: PIECE, price: 8000, step: 10, icon: 'cake'},
+      {id: 'ds-citrus-tart', name: 'Тарталетка с цитрусовым джемом', desc: 'песочная корзинка и цитрусовый джем', unit: PIECE, price: 9000, step: 10, icon: 'cake'},
+      {id: 'ds-orange-cookie', name: 'Апельсиновое печенье', desc: 'ароматное печенье с цедрой', unit: PIECE, price: 7000, step: 10, icon: 'cookie'},
+      {id: 'ds-lemon-cookie', name: 'Лимонное печенье', desc: 'рассыпчатое печенье с лимоном', unit: PIECE, price: 7000, step: 10, icon: 'cookie'},
+      {id: 'ds-oat-cookie', name: 'Овсяное печенье', desc: 'большое блюдо для чайного стола', unit: BIG_DISH, price: 150000, icon: 'cookie'},
+      {id: 'ds-cake-plate', name: 'Ассорти пирожных', desc: 'нарезка из нескольких видов', unit: PLATE, price: 70000, icon: 'cake'},
     ],
   },
   {
     id: 'drinks',
     title: 'Напитки',
     items: [
-      {id: 'drk-tarkhun', name: 'Лимонад тархун-лайм', desc: 'свежий тархун, лайм, без консервантов', unit: '2 л · в графинах', price: 0, image: '/images/format-buffet.jpg', featured: true},
-      {id: 'drk-compote', name: 'Компот из сухофруктов', desc: 'курага, чернослив, узбекские яблоки', unit: '2 л · в графинах', price: 0, image: '/images/format-banquet.jpg'},
-      {id: 'drk-tea', name: 'Зелёный чай с навватом', desc: 'в термосах, свежий лимон и мята', unit: '2 л · 10 чашек', price: 0, image: '/images/format-coffee.jpg'},
-      {id: 'drk-coffee', name: 'Фильтр-кофе свежеобжаренный', desc: 'молоко, сливки и тростниковый сахар отдельно', unit: '2 л · 10 чашек', price: 0, image: '/images/format-coffee.jpg'},
-      {id: 'drk-berry', name: 'Морс из лесных ягод', desc: 'клюква, малина и чёрная смородина', unit: '2 л · в графинах', price: 0, image: '/images/format-buffet.jpg'},
-      {id: 'drk-citrus', name: 'Цитрусовый лимонад с мятой', desc: 'апельсин, грейпфрут, мята и лёд', unit: '2 л · в графинах', price: 0, image: '/images/format-buffet.jpg'},
-      {id: 'drk-black-tea', name: 'Чёрный чай с чабрецом', desc: 'горный чабрец, лимон, подача в самоваре/термосе', unit: '2 л · 10 чашек', price: 0, image: '/images/format-coffee.jpg'},
-      {id: 'drk-water', name: 'Вода без газа и с газом', desc: 'охлаждённая подача в стекле с лаймом', unit: '6 × 0.5 л', price: 0, image: '/images/format-buffet.jpg'},
+      {id: 'dr-espresso', name: 'Эспрессо и американо', desc: 'свежесваренный зерновой кофе', unit: 'чашка · кратно 10', price: 25000, step: 10, icon: 'coffee'},
+      {id: 'dr-instant', name: 'Кофе Jacobs', desc: 'растворимый кофе', unit: 'чашка · кратно 10', price: 5500, step: 10, icon: 'coffee'},
+      {id: 'dr-tea', name: 'Чай Greenfield', desc: 'чёрный и зелёный', unit: 'порция · кратно 10', price: 3500, step: 10, icon: 'coffee'},
+      {id: 'dr-mojito', name: 'Мохито фирменный', desc: 'освежающий лимонад с мятой и лаймом', unit: 'графин', price: 45000, icon: 'cupsoda'},
+      {id: 'dr-lemonade', name: 'Лимонад фирменный', desc: 'домашний лимонад', unit: 'графин', price: 60000, icon: 'cupsoda'},
+      {id: 'dr-water', name: 'Минеральная вода 0,33 л', desc: 'охлаждённая, в стекле', unit: 'бутылка · кратно 10', price: 3500, step: 10, icon: 'glass'},
+      {id: 'dr-juice', name: 'Сок, 1 л', desc: 'сок в ассортименте', unit: 'упаковка 1 л', price: 15500, icon: 'cupsoda'},
+      {id: 'dr-fanta', name: 'Fanta, 1 л', desc: 'газированный напиток', unit: 'бутылка 1 л', price: 9000, icon: 'cupsoda'},
+      {id: 'dr-cola', name: 'Cola, 1 л', desc: 'газированный напиток', unit: 'бутылка 1 л', price: 9000, icon: 'cupsoda'},
+      {id: 'dr-lemon', name: 'Лимон дольками', desc: 'свежий лимон к чаю', unit: PLATE, price: 15000, icon: 'citrus'},
     ],
   },
 ];
@@ -241,45 +338,68 @@ export type RentalItem = {
   desc: string;
   unit: string;
   price: number;
-  image: string;
+  image?: string;
+  icon?: IconKey;
+  /** Цена за одного гостя: при добавлении количество берётся по числу гостей в заказе. */
+  perGuest?: boolean;
 };
 
+/** Аренда и персонал — по прайсам из присланных смет, цена усреднена (см. MAIN_MENU). */
 export const RENTAL_CATALOG: {id: string; title: string; items: RentalItem[]}[] = [
   {
     id: 'tableware',
-    title: 'Посуда и подача',
+    title: 'Посуда и оборудование',
     items: [
       {
-        id: 'rent-porcelain',
-        name: 'Фарфор и стальные приборы',
-        desc: 'белые тарелки, стакан для воды, вилка, нож и льняная салфетка',
-        unit: 'на 1 персону',
-        price: 0,
+        id: 'rent-set-buffet',
+        name: 'Комплект посуды для фуршета',
+        desc: 'тарелка, вилка, хайбол, чашка с блюдцем, чайная и десертная ложки, влажная и бумажная салфетки, сахар',
+        unit: 'на 1 гостя',
+        price: 16000,
+        perGuest: true,
         image: '/images/rental-porcelain.jpg',
       },
       {
+        id: 'rent-porcelain',
+        name: 'Фарфор и стекло для банкета',
+        desc: 'комплект фарфоровой посуды и стекла на одного гостя',
+        unit: 'на 1 гостя',
+        price: 30000,
+        perGuest: true,
+        image: '/images/format-banquet.jpg',
+      },
+      {
         id: 'rent-eco',
-        name: 'Одноразовая эко-посуда',
-        desc: 'крафт-боксы с крышкой, бамбуковые приборы, стакан и салфетки',
-        unit: 'на 1 персону',
-        price: 0,
+        name: 'Одноразовая посуда',
+        desc: 'эко-посуда и приборы для лёгкого формата',
+        unit: 'на 1 гостя',
+        price: 15000,
+        perGuest: true,
         image: '/images/rental-eco.jpg',
       },
       {
         id: 'rent-chafing',
-        name: 'Мармиты и графины с подогревом',
-        desc: 'зеркальные чафинг-диши для горячего, щипцы и стеклянные графины',
-        unit: 'комплект линии',
-        price: 0,
+        name: 'Мармит для горячих блюд',
+        desc: 'держит горячие блюда тёплыми на всё время события',
+        unit: 'за 1 шт',
+        price: 160000,
         image: '/images/rental-chafing.jpg',
       },
       {
-        id: 'rent-risers',
-        name: 'Горки и подставки для фуршета',
-        desc: 'многоуровневые деревянные подиумы, сланец и стеклянные клоши',
-        unit: 'комплект подачи',
-        price: 0,
-        image: '/images/format-buffet.jpg',
+        id: 'rent-boiler',
+        name: 'Барное оборудование: бойлер',
+        desc: 'горячая вода для кофе и чая',
+        unit: 'за 1 шт',
+        price: 100000,
+        icon: 'coffee',
+      },
+      {
+        id: 'rent-vase',
+        name: 'Ваза с живыми цветами',
+        desc: 'живые цветы для оформления стола',
+        unit: 'за 1 вазу',
+        price: 100000,
+        icon: 'flower',
       },
     ],
   },
@@ -288,47 +408,83 @@ export const RENTAL_CATALOG: {id: string; title: string; items: RentalItem[]}[] 
     title: 'Мебель и текстиль',
     items: [
       {
-        id: 'rent-round-table',
-        name: 'Банкетные столы с текстилем',
-        desc: 'круглые или длинные столы со скатертью в пол для рассадки гостей',
-        unit: '1 стол · на 8 персон',
-        price: 0,
-        image: '/images/format-banquet.jpg',
+        id: 'rent-wood-table',
+        name: 'Деревянный стол 90 × 180 см',
+        desc: 'для фуршетной линии или рассадки гостей',
+        unit: 'за 1 шт',
+        price: 110000,
+        image: '/images/format-buffet.jpg',
       },
       {
         id: 'rent-cocktail-table',
-        name: 'Фуршетные и коктейльные столы',
-        desc: 'высокие столы для зоны приветствия и свободного общения',
-        unit: '1 стол · на 6 персон',
-        price: 0,
-        image: '/images/hero-buffet.jpg',
+        name: 'Коктейльный стол 60 × 110 см',
+        desc: 'высокий стол для свободного общения',
+        unit: 'за 1 шт',
+        price: 160000,
+        icon: 'table',
       },
       {
-        id: 'rent-chairs',
-        name: 'Банкетные стулья с подушками',
-        desc: 'удобные стулья для торжественной рассадки в зале и на выезде',
-        unit: '1 стул',
-        price: 0,
-        image: '/images/format-banquet.jpg',
+        id: 'rent-tablecloth',
+        name: 'Скатерть для коктейльного стола',
+        desc: 'оформление коктейльного стола скатертью',
+        unit: 'за 1 шт',
+        price: 20000,
+        icon: 'table',
+      },
+    ],
+  },
+  {
+    id: 'staff',
+    title: 'Персонал',
+    items: [
+      {
+        id: 'staff-manager',
+        name: 'Менеджер по персоналу',
+        desc: 'координирует команду и подачу на площадке',
+        unit: 'на мероприятие',
+        price: 350000,
+        icon: 'user',
       },
       {
-        id: 'rent-textile',
-        name: 'Скатерти и тканевые салфетки',
-        desc: 'белый и тёплый бежевый лён, юбки для фуршетной линии',
-        unit: 'комплект на стол',
-        price: 0,
-        image: '/images/rental-porcelain.jpg',
+        id: 'staff-waiter',
+        name: 'Официант',
+        desc: 'обслуживание гостей и столов',
+        unit: 'на мероприятие',
+        price: 300000,
+        icon: 'user',
+      },
+      {
+        id: 'staff-bartender',
+        name: 'Бармен',
+        desc: 'напитки, кофе и чай на баре',
+        unit: 'на мероприятие',
+        price: 335000,
+        icon: 'user',
+      },
+      {
+        id: 'staff-dishwasher',
+        name: 'Посудомойка',
+        desc: 'мойка посуды на площадке',
+        unit: 'на мероприятие',
+        price: 250000,
+        icon: 'user',
       },
     ],
   },
 ];
 
-export const STAFF = [
-  {title: 'Официанты', text: 'от 0 сўм / официант · 1 специалист на 15 гостей'},
-  {title: 'Бармен лимонад-бара', text: 'от 0 сўм / бармен · подача лимонадов, кофе и чая'},
-  {title: 'Шеф на площадке', text: 'от 0 сўм / шеф · финальная отдача плова и горячего'},
-  {title: 'Монтаж и уборка', text: 'приезжаем за 1.5 часа до гостей и забираем всё сами'},
-];
+/** Персонал для блока «Сервис под ключ» — берётся из каталога, чтобы цены не расходились. */
+export const STAFF = (RENTAL_CATALOG.find(c => c.id === 'staff')?.items ?? []).map(i => ({
+  title: i.name,
+  text: `${formatPrice(i.price)} сўм ${i.unit} · ${i.desc}`,
+}));
+
+/** Самая низкая цена посуды на одного гостя — для плитки «Посуда и мебель» на главной. */
+export const TABLEWARE_FROM = Math.min(
+  ...(RENTAL_CATALOG.find(c => c.id === 'tableware')?.items ?? [])
+    .filter(i => i.perGuest)
+    .map(i => i.price),
+);
 
 /** Посуда: выбирается один вариант. Цена — за гостя. */
 export const TABLEWARE = [

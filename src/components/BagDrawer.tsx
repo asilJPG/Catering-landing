@@ -2,6 +2,7 @@ import {Minus, Plus, Trash2, X} from 'lucide-react';
 import {MAIN_MENU, RENTAL_CATALOG, formatPrice, guestsWord} from '../data';
 import {useOrder} from '../order';
 import type {CatalogItem} from './CatalogSection';
+import {ItemIcon} from './ItemIcon';
 
 const ALL_DISHES = MAIN_MENU.flatMap(s => s.items);
 const ALL_RENTALS = RENTAL_CATALOG.flatMap(s => s.items);
@@ -39,7 +40,13 @@ function BagItemGroup({
           if (q === 0) return null;
           return (
             <li key={item.id} className="apple-bag-item">
-              <img src={item.image} alt={item.name} />
+              {item.image ? (
+                <img src={item.image} alt={item.name} />
+              ) : (
+                <span className="apple-bag-thumb" aria-hidden>
+                  <ItemIcon name={item.icon} size={22} />
+                </span>
+              )}
               <div className="apple-bag-item-info">
                 <strong>{item.name}</strong>
                 <small>{item.unit}</small>

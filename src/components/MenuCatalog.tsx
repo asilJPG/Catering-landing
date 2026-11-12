@@ -9,6 +9,8 @@ const MENU_TABS: CatalogTab[] = [
   ...MAIN_MENU.map(m => ({id: m.id, label: m.title, items: m.items})),
 ];
 
+const DISH_COUNT = MAIN_MENU.reduce((sum, s) => sum + s.items.length, 0);
+
 export function MenuCatalog() {
   const order = useOrder();
 
@@ -16,7 +18,7 @@ export function MenuCatalog() {
     <CatalogSection
       id="menu"
       title="Меню"
-      subtitle="40 блюд 100% Халяль — соберите позиции для вашего события."
+      subtitle={`${DISH_COUNT} позиций — соберите меню для вашего события.`}
       altSurface
       tabsLabel="Разделы меню"
       tabs={MENU_TABS}

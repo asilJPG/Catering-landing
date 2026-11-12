@@ -1,0 +1,62 @@
+import {
+  Apple,
+  Beef,
+  Cake,
+  Candy,
+  Cherry,
+  Citrus,
+  Coffee,
+  Cookie,
+  Croissant,
+  CupSoda,
+  Drumstick,
+  Fish,
+  Flame,
+  Flower2,
+  GlassWater,
+  Grape,
+  Martini,
+  Nut,
+  Salad,
+  Sandwich,
+  Soup,
+  Table,
+  User,
+  Utensils,
+  Wheat,
+  type LucideIcon,
+} from 'lucide-react';
+import type {IconKey} from '../data';
+
+const ICONS: Record<IconKey, LucideIcon> = {
+  utensils: Utensils,
+  soup: Soup,
+  drumstick: Drumstick,
+  beef: Beef,
+  flame: Flame,
+  fish: Fish,
+  sandwich: Sandwich,
+  salad: Salad,
+  wheat: Wheat,
+  martini: Martini,
+  apple: Apple,
+  cherry: Cherry,
+  grape: Grape,
+  citrus: Citrus,
+  nut: Nut,
+  candy: Candy,
+  cake: Cake,
+  cookie: Cookie,
+  croissant: Croissant,
+  coffee: Coffee,
+  cupsoda: CupSoda,
+  glass: GlassWater,
+  flower: Flower2,
+  table: Table,
+  user: User,
+};
+
+export function ItemIcon({name = 'utensils', size = 40}: {name?: IconKey; size?: number}) {
+  const Icon = ICONS[name];
+  return <Icon size={size} strokeWidth={1.3} aria-hidden />;
+}

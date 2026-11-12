@@ -1,5 +1,5 @@
 import {ArrowUpRight} from 'lucide-react';
-import {BRAND, FORMATS, formatPrice} from '../data';
+import {BRAND, FORMATS, TABLEWARE_FROM, formatPrice} from '../data';
 import {useOrder} from '../order';
 
 export function Showcase() {
@@ -62,8 +62,8 @@ export function Showcase() {
         <article className="promo-tile promo-tile--light" id="service-info">
           <div className="promo-tile-copy">
             <h2>Посуда и мебель</h2>
-            <p>Фарфор, хрусталь, столы, стулья и текстиль — привезём с кухней.</p>
-            <span className="promo-tile-price">от {formatPrice(0)} сўм · всё для сервировки</span>
+            <p>Фарфор, мармиты, столы, текстиль и персонал — привезём с кухней.</p>
+            <span className="promo-tile-price">посуда от {formatPrice(TABLEWARE_FROM)} сўм на гостя</span>
             <div className="unit-cta">
               <a href="#equipment" className="btn-apple btn-apple--filled btn-apple--sm">
                 Выбрать с фото

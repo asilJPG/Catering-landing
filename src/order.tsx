@@ -96,7 +96,7 @@ export function OrderProvider({children}: {children: ReactNode}) {
     for (const item of ALL_DISHES) {
       const q = dishes[item.id] ?? 0;
       if (q > 0) {
-        dishCount += q;
+        dishCount += 1; // считаем позиции, а не штуки
         lines.push({
           label: item.name,
           note: `${q} × ${formatPrice(item.price)} сўм`,
@@ -109,7 +109,7 @@ export function OrderProvider({children}: {children: ReactNode}) {
     for (const item of ALL_RENTALS) {
       const q = rentals[item.id] ?? 0;
       if (q > 0) {
-        rentalCount += q;
+        rentalCount += 1;
         lines.push({
           label: item.name,
           note: `${q} × ${formatPrice(item.price)} сўм`,

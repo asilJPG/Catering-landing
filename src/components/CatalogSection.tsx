@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import {Check, Minus, Plus} from 'lucide-react';
-import {formatPrice} from '../data';
+import {formatPrice, type IconKey} from '../data';
+import {ItemIcon} from './ItemIcon';
 
 export type CatalogItem = {
   id: string;
@@ -8,7 +9,10 @@ export type CatalogItem = {
   desc: string;
   unit: string;
   price: number;
-  image: string;
+  image?: string;
+  icon?: IconKey;
+  /** Шаг заказа (штучные позиции добавляются по 10). */
+  step?: number;
 };
 
 export type CatalogTab = {
@@ -67,10 +71,15 @@ export function CatalogSection({
         <ul className={`apple-dish-grid${altSurface ? ' apple-dish-grid--on-alt' : ''}`} key={current.id}>
           {current.items.map(item => {
             const qty = getQty(item.id);
+            const step = item.step ?? 1;
             return (
               <li key={item.id} className="apple-dish-tile">
-                <div className="apple-dish-img">
-                  <img src={item.image} alt={item.name} />
+                <div className={`apple-dish-img${item.image ? '' : ' apple-dish-img--ph'}`}>
+                  {item.image ? (
+                    <img src={item.image} alt={item.name} loading="lazy" />
+                  ) : (
+                    <ItemIcon name={item.icon} />
+                  )}
                 </div>
                 <div className="apple-dish-body">
                   <h3>{item.name}</h3>
@@ -83,14 +92,14 @@ export function CatalogSection({
                     <button
                       type="button"
                       className="btn-apple btn-apple--filled btn-apple--xs"
-                      onClick={() => onAdd(item.id, 1)}>
+                      onClick={() => onAdd(item.id, step)}>
                       Добавить
                     </button>
                   ) : (
                     <div className="apple-stepper apple-stepper--pill">
                       <button
                         type="button"
-                        onClick={() => onAdd(item.id, -1)}
+                        onClick={() => onAdd(item.id, -step)}
                         aria-label="Уменьшить">
                         <Minus size={12} />
                       </button>
@@ -99,7 +108,7 @@ export function CatalogSection({
                       </span>
                       <button
                         type="button"
-                        onClick={() => onAdd(item.id, 1)}
+                        onClick={() => onAdd(item.id, step)}
                         aria-label="Увеличить">
                         <Plus size={12} />
                       </button>
