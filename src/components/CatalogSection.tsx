@@ -6,7 +6,7 @@ import {ItemIcon} from './ItemIcon';
 export type CatalogItem = {
   id: string;
   name: string;
-  desc: string;
+  desc?: string;
   unit: string;
   price: number;
   image?: string;
@@ -83,7 +83,7 @@ export function CatalogSection({
                 </div>
                 <div className="apple-dish-body">
                   <h3>{item.name}</h3>
-                  <p className="apple-dish-desc">{item.desc}</p>
+                  {item.desc && <p className="apple-dish-desc">{item.desc}</p>}
                   <p className="apple-dish-unit">{item.unit}</p>
                 </div>
                 <div className="apple-dish-foot">

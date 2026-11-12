@@ -1,4 +1,15 @@
-import {ADDRESS, BRAND, EMAIL, HOURS, INSTAGRAM_HREF, PHONE, PHONE_HREF, TELEGRAM_HREF, formatPrice} from '../data';
+import {
+  ADDRESS,
+  BRAND,
+  EMAIL,
+  HOURS,
+  INSTAGRAM_HREF,
+  MAIN_MENU,
+  PHONE,
+  PHONE_HREF,
+  TELEGRAM_HREF,
+  formatPrice,
+} from '../data';
 
 const YEAR = new Date().getFullYear();
 
@@ -29,11 +40,11 @@ export function Footer() {
           <div>
             <h4>Меню</h4>
             <ul>
-              <li><a href="#menu">Закуски и канапе</a></li>
-              <li><a href="#menu">Салаты и боулы</a></li>
-              <li><a href="#menu">Горячие блюда</a></li>
-              <li><a href="#menu">Десерты</a></li>
-              <li><a href="#menu">Напитки</a></li>
+              {MAIN_MENU.map(section => (
+                <li key={section.id}>
+                  <a href="#menu">{section.title}</a>
+                </li>
+              ))}
             </ul>
           </div>
 

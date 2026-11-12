@@ -1,10 +1,8 @@
 import {createContext, useContext, useMemo, useState, type ReactNode} from 'react';
 import {
-  EXTRAS,
   FORMATS,
   MAIN_MENU,
   RENTAL_CATALOG,
-  TABLEWARE,
   formatPrice,
   type Format,
   type FormatId,
@@ -20,8 +18,6 @@ type DishCart = Record<string, number>;
 type OrderValue = {
   format: Format;
   guests: number;
-  tableware: string;
-  extras: string[];
   dishes: DishCart;
   dishCount: number;
   rentals: DishCart;
@@ -30,8 +26,6 @@ type OrderValue = {
   setSearchQuery: (q: string) => void;
   setFormat: (id: FormatId) => void;
   setGuests: (n: number) => void;
-  setTableware: (id: string) => void;
-  toggleExtra: (id: string) => void;
   dishQty: (id: string) => number;
   addDish: (id: string, delta?: number) => void;
   clearDishes: () => void;
@@ -40,7 +34,6 @@ type OrderValue = {
   clearRentals: () => void;
   isDrawerOpen: boolean;
   setDrawerOpen: (open: boolean) => void;
-  unitsOf: (per: number) => number;
   lines: Line[];
   total: number;
 };
@@ -60,8 +53,6 @@ function adjustQty(prev: DishCart, id: string, delta: number): DishCart {
 export function OrderProvider({children}: {children: ReactNode}) {
   const [formatId, setFormatId] = useState<FormatId>('buffet');
   const [guests, setGuestsRaw] = useState(30);
-  const [tableware, setTableware] = useState(TABLEWARE[0].id);
-  const [extras, setExtras] = useState<string[]>([]);
   const [dishes, setDishes] = useState<DishCart>({});
   const [rentals, setRentals] = useState<DishCart>({});
   const [searchQuery, setSearchQuery] = useState('');
@@ -69,7 +60,6 @@ export function OrderProvider({children}: {children: ReactNode}) {
 
   const value = useMemo<OrderValue>(() => {
     const format = FORMATS.find(f => f.id === formatId) ?? FORMATS[0];
-    const unitsOf = (per: number) => Math.max(1, Math.ceil(guests / per));
 
     const lines: Line[] = [
       {
@@ -78,19 +68,6 @@ export function OrderProvider({children}: {children: ReactNode}) {
         sum: format.pricePerGuest * guests,
       },
     ];
-    const ware = TABLEWARE.find(t => t.id === tableware);
-    if (ware && ware.price > 0) {
-      lines.push({label: ware.title, note: `${guests} × ${formatPrice(ware.price)}`, sum: ware.price * guests});
-    }
-    for (const extra of EXTRAS) {
-      if (!extras.includes(extra.id)) continue;
-      const units = unitsOf(extra.per);
-      lines.push({
-        label: extra.title,
-        note: `${units} × ${formatPrice(extra.price)}`,
-        sum: units * extra.price,
-      });
-    }
 
     let dishCount = 0;
     for (const item of ALL_DISHES) {
@@ -121,8 +98,6 @@ export function OrderProvider({children}: {children: ReactNode}) {
     return {
       format,
       guests,
-      tableware,
-      extras,
       dishes,
       dishCount,
       rentals,
@@ -135,8 +110,6 @@ export function OrderProvider({children}: {children: ReactNode}) {
         setGuestsRaw(g => Math.max(g, next.minGuests));
       },
       setGuests: n => setGuestsRaw(Math.max(1, Math.min(MAX_GUESTS, Math.round(n) || 0))),
-      setTableware,
-      toggleExtra: id => setExtras(prev => (prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id])),
       dishQty: id => dishes[id] ?? 0,
       addDish: (id, delta = 1) => setDishes(prev => adjustQty(prev, id, delta)),
       clearDishes: () => setDishes({}),
@@ -145,11 +118,10 @@ export function OrderProvider({children}: {children: ReactNode}) {
       clearRentals: () => setRentals({}),
       isDrawerOpen,
       setDrawerOpen,
-      unitsOf,
       lines,
       total: lines.reduce((sum, l) => sum + l.sum, 0),
     };
-  }, [formatId, guests, tableware, extras, dishes, rentals, searchQuery, isDrawerOpen]);
+  }, [formatId, guests, dishes, rentals, searchQuery, isDrawerOpen]);
 
   return <OrderContext.Provider value={value}>{children}</OrderContext.Provider>;
 }
