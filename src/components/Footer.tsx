@@ -22,7 +22,6 @@ export function Footer() {
               <li><a href="#formats" onClick={() => undefined}>Банкеты и торжества</a></li>
               <li><a href="#formats">Выездные фуршеты</a></li>
               <li><a href="#formats">Кофе-брейк</a></li>
-              <li><a href="#formats">Обеды в офис</a></li>
               <li><a href="#service-details">Посуда и сервис</a></li>
             </ul>
           </div>
