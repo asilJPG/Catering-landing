@@ -1,4 +1,4 @@
-import {Check} from 'lucide-react';
+import {ArrowRight, Check, Star} from 'lucide-react';
 import {FORMATS, formatPrice} from '../data';
 import {useOrder} from '../order';
 
@@ -7,12 +7,19 @@ export function Menus() {
   const {format, pkg} = order;
 
   return (
-    <section className="section section--warm" id="menus">
+    <section className="section" id="menus">
       <div className="wrap">
-        <div className="section-head">
-          <p className="eyebrow">Меню и цены</p>
-          <h2 className="h2">Готовые пакеты по форматам</h2>
-          <p className="lead">Цена указана за одного гостя. Любое блюдо в пакете можно заменить.</p>
+        <div className="section-row-head">
+          <div>
+            <p className="pill-eyebrow">
+              <Star size={12} fill="currentColor" aria-hidden /> ПОПУЛЯРНЫЕ СЕТЫ
+            </p>
+            <h2 className="h2">Готовые решения для вашего мероприятия</h2>
+            <p className="lead">Цена указана за одного гостя в сўмах. Любую позицию в пакете можно заменить.</p>
+          </div>
+          <a className="btn-pill-outline" href="#menu">
+            Смотреть все блюда <ArrowRight size={16} aria-hidden />
+          </a>
         </div>
 
         <div className="tabs" role="tablist" aria-label="Формат события">
@@ -49,20 +56,27 @@ export function Menus() {
                 </ul>
                 <button
                   type="button"
-                  className={`btn${isActive ? ' btn--accent' : ' btn--ghost'}`}
+                  className={`btn btn--full${isActive ? ' btn--olive' : ' btn--sage-outline'}`}
                   aria-pressed={isActive}
                   onClick={() => order.setPkg(p.id)}>
-                  {isActive ? 'Выбрано' : 'Выбрать'}
+                  {isActive ? 'Выбрано в расчёт' : 'Выбрать пакет'}
                 </button>
               </li>
             );
           })}
         </ul>
 
-        <p className="menus-foot">
-          Минимальный заказ для формата «{format.title}» — от {format.minGuests} гостей.{' '}
-          <a href="#extras">Дальше: посуда и мебель →</a>
-        </p>
+        <a className="catalog-banner" href="#menu">
+          <img src="/images/format-buffet.jpg" alt="Все фуршетные блюда Luma Catering" />
+          <div className="catalog-banner-body">
+            <span className="pill-tag">БОЛЕЕ 20 ПОЗИЦИЙ</span>
+            <h3>Посмотреть все закуски, салаты и горячее</h3>
+            <p>Для мероприятий и корпоративных заказов от 10 до 500 гостей</p>
+          </div>
+          <span className="round-arrow round-arrow--lg">
+            <ArrowRight size={20} aria-hidden />
+          </span>
+        </a>
       </div>
     </section>
   );

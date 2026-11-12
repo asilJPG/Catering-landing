@@ -1,6 +1,6 @@
 import {useEffect, useState, type FormEvent} from 'react';
-import {ArrowRight, Check, Minus, Plus} from 'lucide-react';
-import {FORMATS, PHONE, PHONE_HREF, formatPrice, guestsWord} from '../data';
+import {ArrowRight, Check, Minus, Plus, ShoppingBag, Trash2, X} from 'lucide-react';
+import {FORMATS, MAIN_MENU, PHONE, PHONE_HREF, formatPrice, guestsWord} from '../data';
 import {MAX_GUESTS, useOrder} from '../order';
 
 function tomorrow(): string {
@@ -52,8 +52,10 @@ export function Order() {
     <section className="order" id="order">
       <div className="wrap order-grid">
         <div className="order-summary">
-          <p className="eyebrow">Расчёт</p>
-          <h2 className="h2">Ваше событие</h2>
+          <h2 className="h2">
+            <span className="script">Расчёт</span>
+            вашего события
+          </h2>
 
           <div className="order-controls">
             <div className="field">
@@ -192,7 +194,7 @@ export function Order() {
                 onChange={e => setComment(e.target.value)}
               />
             </div>
-            <button type="submit" className="btn btn--accent btn--lg field--wide" disabled={state === 'sending'}>
+            <button type="submit" className="btn btn--red btn--lg field--wide" disabled={state === 'sending'}>
               {state === 'sending' ? 'Отправляем…' : 'Получить смету'}
               <ArrowRight size={20} aria-hidden />
             </button>
@@ -206,16 +208,124 @@ export function Order() {
   );
 }
 
-/** Плашка с текущим расчётом, закреплённая внизу экрана. */
+const ALL_DISHES = MAIN_MENU.flatMap(s => s.items);
+
+/** Выдвижная смета заказа в стиле Art of Catering (#tcart) + плавающая кнопка. */
 export function OrderBar() {
   const order = useOrder();
+
   return (
-    <a className="order-bar" href="#order">
-      <span>
-        {order.format.title} · {order.guests} {guestsWord(order.guests)}
-      </span>
-      <strong>от {formatPrice(order.total)} сўм</strong>
-      <ArrowRight size={18} aria-hidden />
-    </a>
+    <>
+      <button
+        type="button"
+        className="order-bar"
+        onClick={() => order.setDrawerOpen(true)}
+        aria-label="Открыть смету заказа">
+        <ShoppingBag size={17} aria-hidden />
+        <span>
+          {order.format.title} · {order.guests} {guestsWord(order.guests)}
+          {order.dishCount > 0 ? ` + ${order.dishCount} блюд` : ''}
+        </span>
+        <strong>{formatPrice(order.total)} сўм</strong>
+        <ArrowRight size={17} aria-hidden />
+      </button>
+
+      {order.isDrawerOpen && (
+        <div className="drawer-backdrop" onClick={() => order.setDrawerOpen(false)}>
+          <aside
+            className="drawer"
+            onClick={e => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Оформление сметы заказа">
+            <div className="drawer-head">
+              <h3>Ваша смета заказа</h3>
+              <button
+                type="button"
+                className="drawer-close"
+                onClick={() => order.setDrawerOpen(false)}
+                aria-label="Закрыть">
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="drawer-body">
+              <div className="drawer-pkg-box">
+                <span className="pill-tag">Базовый пакет</span>
+                <p>
+                  <strong>{order.format.title} · «{order.pkg.title}»</strong> — {order.guests} {guestsWord(order.guests)}
+                </p>
+                <small>{formatPrice(order.pkg.price)} сўм / гость</small>
+              </div>
+
+              {order.dishCount > 0 && (
+                <div className="drawer-dishes">
+                  <div className="drawer-dishes-head">
+                    <strong>Выбранные блюда ({order.dishCount})</strong>
+                    <button type="button" onClick={order.clearDishes}>
+                      <Trash2 size={14} /> Очистить блюда
+                    </button>
+                  </div>
+
+                  <ul className="drawer-dish-list">
+                    {ALL_DISHES.map(item => {
+                      const q = order.dishQty(item.id);
+                      if (q === 0) return null;
+                      return (
+                        <li key={item.id} className="drawer-dish-row">
+                          <img src={item.image} alt={item.name} />
+                          <div className="drawer-dish-info">
+                            <strong>{item.name}</strong>
+                            <small>{item.unit}</small>
+                            <span>{formatPrice(item.price * q)} сўм</span>
+                          </div>
+                          <div className="dish-stepper">
+                            <button
+                              type="button"
+                              onClick={() => order.addDish(item.id, -1)}
+                              aria-label="Уменьшить">
+                              <Minus size={13} />
+                            </button>
+                            <span>{q}</span>
+                            <button
+                              type="button"
+                              onClick={() => order.addDish(item.id, 1)}
+                              aria-label="Увеличить">
+                              <Plus size={13} />
+                            </button>
+                          </div>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              )}
+
+              <ul className="drawer-summary">
+                {order.lines.map(l => (
+                  <li key={l.label}>
+                    <span>{l.label}</span>
+                    <b>{formatPrice(l.sum)} сўм</b>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="drawer-foot">
+              <div className="drawer-total">
+                <span>Итого ориентир:</span>
+                <strong>{formatPrice(order.total)} сўм</strong>
+              </div>
+              <a
+                href="#order"
+                className="btn btn--sage-solid btn--full"
+                onClick={() => order.setDrawerOpen(false)}>
+                Отправить заявку на расчёт
+              </a>
+            </div>
+          </aside>
+        </div>
+      )}
+    </>
   );
 }

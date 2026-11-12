@@ -13,12 +13,12 @@ export function Corporate() {
             прайс-лист, закрепим за вами менеджера.
           </p>
           <div className="corporate-actions">
-            <a className="btn" href={PROPOSAL_FILE || '#order'} {...(PROPOSAL_FILE ? {download: true} : {})}>
+            <a className="btn btn--olive" href={PROPOSAL_FILE || '#order'} {...(PROPOSAL_FILE ? {download: true} : {})}>
               <FileText size={18} aria-hidden />
               {PROPOSAL_FILE ? 'Скачать КП' : 'Запросить КП'}
             </a>
             <a
-              className="btn btn--ghost"
+              className="btn btn--sage-outline"
               href={PRICE_LIST_FILE || '#order'}
               {...(PRICE_LIST_FILE ? {download: true} : {})}>
               <FileText size={18} aria-hidden />
