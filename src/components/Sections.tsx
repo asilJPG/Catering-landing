@@ -39,7 +39,7 @@ export function Features() {
             <div className="feature-dark-body">
               <h3>Фуршетные сеты</h3>
               <a className="pill-white-cta" href="#menus">
-                ОТ 190 000 СЎМ НА ПЕРСОНУ
+                ОТ 0 СЎМ НА ПЕРСОНУ
               </a>
             </div>
           </li>
@@ -283,7 +283,7 @@ export function DeliveryAndPayment() {
                 <h4>Безналичный расчёт для юр. лиц</h4>
                 <p>
                   Официальный договор, счёт-фактура и ЭСФ через Didox / Soliq. Заказы до{' '}
-                  {formatPrice(2500000)} сўм — без предоплаты.
+                  {formatPrice(0)} сўм — без предоплаты.
                 </p>
               </div>
             </div>
@@ -307,13 +307,13 @@ export function DeliveryAndPayment() {
               </div>
               <div>
                 <h4>Условия заказа</h4>
-                <p>Минимальный заказ блюд — {formatPrice(600000)} сўм или от 10 гостей по готовым пакетам.</p>
+                <p>Минимальный заказ блюд — {formatPrice(0)} сўм или от 10 гостей по готовым пакетам.</p>
               </div>
               <div>
                 <h4>Стоимость доставки</h4>
                 <p>
-                  По Ташкенту внутри ТКАД — {formatPrice(50000)} сўм. При сумме от{' '}
-                  {formatPrice(2500000)} сўм — <strong>бесплатно</strong>. Выезд в Чарвак, Бостанлык и
+                  По Ташкенту внутри ТКАД — {formatPrice(0)} сўм. При сумме от{' '}
+                  {formatPrice(0)} сўм — <strong>бесплатно</strong>. Выезд в Чарвак, Бостанлык и
                   регионы рассчитывается отдельно.
                 </p>
               </div>

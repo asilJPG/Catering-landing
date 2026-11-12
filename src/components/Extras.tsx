@@ -39,7 +39,7 @@ export function Extras() {
                     <span className="option-title">{t.title}</span>
                     <span className="option-text">{t.text}</span>
                     <span className="option-price">
-                      {t.price === 0 ? 'Включена в цену' : `+ ${formatPrice(t.price)} сўм / гость`}
+                      {t.id === 'eco' && t.price === 0 ? 'Включена в цену' : `+ ${formatPrice(t.price)} сўм / гость`}
                     </span>
                   </label>
                 </li>

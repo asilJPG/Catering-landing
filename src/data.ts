@@ -78,21 +78,21 @@ export const FORMATS: Format[] = [
       {
         id: 'banquet-1',
         title: 'Классика',
-        price: 380000,
+        price: 0,
         note: 'Семейный праздник или небольшой юбилей',
         items: ['3 холодные закуски', '2 салата', 'Горячее на выбор: курица или говядина', 'Гарнир', 'Хлебная корзина', 'Чай и лимонад'],
       },
       {
         id: 'banquet-2',
         title: 'Праздничный',
-        price: 520000,
+        price: 0,
         note: 'Самый частый выбор для свадьбы и тойя',
         items: ['5 холодных закусок (100% Халяль)', '3 салата', 'Горячая закуска', 'Два горячих: телятина и рыба', 'Ташкентский праздничный плов', 'Фруктовая подача', 'Чай с навватом, лимонады, соки'],
       },
       {
         id: 'banquet-3',
         title: 'Премиум',
-        price: 720000,
+        price: 0,
         note: 'Когда стол — главное впечатление вечера',
         items: ['7 холодных закусок и сырная тарелка', '4 салата', '2 горячие закуски', 'Три горячих: баранина, говядина, рыба', 'Плов на курдючном масле или казан-кебаб', 'Восточный и европейский десертный стол', 'Лимонад-бар и чайная станция'],
       },
@@ -109,21 +109,21 @@ export const FORMATS: Format[] = [
       {
         id: 'buffet-1',
         title: 'Лёгкий',
-        price: 190000,
+        price: 0,
         note: 'Короткое событие на час-полтора',
         items: ['8 закусок на гостя', '4 вида канапе', 'Брускетты', 'Овощи и соусы', 'Лимонад и вода'],
       },
       {
         id: 'buffet-2',
         title: 'Стандарт',
-        price: 260000,
+        price: 0,
         note: 'Полноценный фуршет на два-три часа',
         items: ['12 закусок на гостя', '6 видов канапе', 'Брускетты и тарталетки', 'Мини-сэндвичи', 'Мини-десерты', 'Лимонады, соки, вода'],
       },
       {
         id: 'buffet-3',
         title: 'Премиум',
-        price: 360000,
+        price: 0,
         note: 'С горячими закусками и десертным столом',
         items: ['16 закусок на гостя (Халяль)', '8 видов канапе, включая форель и говядину', 'Горячие мини-шашлычки и самса', 'Мини-бургеры', 'Сырная и фруктовая подача', 'Десертный стол', 'Лимонад-бар и чайная станция'],
       },
@@ -140,21 +140,21 @@ export const FORMATS: Format[] = [
       {
         id: 'coffee-1',
         title: 'Экспресс',
-        price: 65000,
+        price: 0,
         note: 'Один короткий перерыв',
         items: ['Кофе и чай', 'Печенье', 'Мини-выпечка', 'Вода'],
       },
       {
         id: 'coffee-2',
         title: 'Стандарт',
-        price: 95000,
+        price: 0,
         note: 'Сладкое и солёное на один перерыв',
         items: ['Кофе и чай', 'Мини-круассаны', 'Мини-сэндвичи', 'Десерт', 'Фрукты', 'Вода и сок'],
       },
       {
         id: 'coffee-3',
         title: 'Расширенный',
-        price: 140000,
+        price: 0,
         note: 'Два перерыва за день',
         items: ['Кофе и чай весь день', 'Выпечка и сэндвичи', 'Канапе', 'Два вида десертов', 'Фрукты', 'Вода, сок, лимонад'],
       },
@@ -171,21 +171,21 @@ export const FORMATS: Format[] = [
       {
         id: 'lunch-1',
         title: 'Лёгкий',
-        price: 42000,
+        price: 0,
         note: 'Когда не хочется тяжёлого',
         items: ['Салат', 'Суп', 'Хлеб', 'Напиток'],
       },
       {
         id: 'lunch-2',
         title: 'Полный',
-        price: 58000,
+        price: 0,
         note: 'Обычный рабочий обед',
         items: ['Салат', 'Суп', 'Горячее с гарниром', 'Хлеб', 'Напиток'],
       },
       {
         id: 'lunch-3',
         title: 'Большой',
-        price: 72000,
+        price: 0,
         note: 'С десертом и двойным горячим на выбор',
         items: ['Салат', 'Суп', 'Горячее с гарниром на выбор из двух', 'Десерт', 'Хлеб', 'Напиток'],
       },
@@ -207,50 +207,50 @@ export const MAIN_MENU: {id: string; title: string; items: MenuItem[]}[] = [
     id: 'snacks',
     title: 'Закуски и канапе',
     items: [
-      {id: 'snack-roastbeef', name: 'Канапе с ростбифом', desc: 'вяленый томат, горчичный крем, микрозелень', unit: '20 шт · 420 г', price: 320000, image: '/images/dish-canapes.jpg'},
-      {id: 'snack-samsa', name: 'Мини-самса с тыквой', desc: 'слоёное тесто, зира, кунжут', unit: '20 шт · 500 г', price: 180000, image: '/images/format-coffee.jpg'},
-      {id: 'snack-salmon', name: 'Тарталетки с форелью', desc: 'мусс из копчёной форели, укроп', unit: '20 шт · 400 г', price: 340000, image: '/images/dish-salmon.jpg'},
-      {id: 'snack-bruschetta', name: 'Брускетта с баклажаном', desc: 'печёный баклажан, сузьма, гранат', unit: '20 шт · 460 г', price: 240000, image: '/images/dish-bruschetta.jpg'},
+      {id: 'snack-roastbeef', name: 'Канапе с ростбифом', desc: 'вяленый томат, горчичный крем, микрозелень', unit: '20 шт · 420 г', price: 0, image: '/images/dish-canapes.jpg'},
+      {id: 'snack-samsa', name: 'Мини-самса с тыквой', desc: 'слоёное тесто, зира, кунжут', unit: '20 шт · 500 г', price: 0, image: '/images/format-coffee.jpg'},
+      {id: 'snack-salmon', name: 'Тарталетки с форелью', desc: 'мусс из копчёной форели, укроп', unit: '20 шт · 400 г', price: 0, image: '/images/dish-salmon.jpg'},
+      {id: 'snack-bruschetta', name: 'Брускетта с баклажаном', desc: 'печёный баклажан, сузьма, гранат', unit: '20 шт · 460 г', price: 0, image: '/images/dish-bruschetta.jpg'},
     ],
   },
   {
     id: 'salads',
     title: 'Салаты и боулы',
     items: [
-      {id: 'salad-achichuk', name: 'Ачичук с базиликом', desc: 'спелые томаты, красный лук, сумах', unit: '1 кг · 5 порций', price: 160000, image: '/images/dish-salad.jpg'},
-      {id: 'salad-quinoa', name: 'Киноа и печёная свёкла', desc: 'фета, грецкий орех, мята', unit: '1 кг · 5 порций', price: 290000, image: '/images/format-lunch.jpg'},
-      {id: 'salad-beef', name: 'Тёплый салат с говядиной', desc: 'баклажан, сладкий перец, кинза', unit: '1 кг · 5 порций', price: 380000, image: '/images/dish-bruschetta.jpg'},
-      {id: 'salad-caesar', name: 'Цезарь с курицей', desc: 'ромэн, пармезан, домашние гренки', unit: '1 кг · 5 порций', price: 310000, image: '/images/dish-salad.jpg'},
+      {id: 'salad-achichuk', name: 'Ачичук с базиликом', desc: 'спелые томаты, красный лук, сумах', unit: '1 кг · 5 порций', price: 0, image: '/images/dish-salad.jpg'},
+      {id: 'salad-quinoa', name: 'Киноа и печёная свёкла', desc: 'фета, грецкий орех, мята', unit: '1 кг · 5 порций', price: 0, image: '/images/format-lunch.jpg'},
+      {id: 'salad-beef', name: 'Тёплый салат с говядиной', desc: 'баклажан, сладкий перец, кинза', unit: '1 кг · 5 порций', price: 0, image: '/images/dish-bruschetta.jpg'},
+      {id: 'salad-caesar', name: 'Цезарь с курицей', desc: 'ромэн, пармезан, домашние гренки', unit: '1 кг · 5 порций', price: 0, image: '/images/dish-salad.jpg'},
     ],
   },
   {
     id: 'hot',
     title: 'Горячие блюда',
     items: [
-      {id: 'hot-plov', name: 'Праздничный плов', desc: 'баранина, жёлтая морковь, нут, изюм', unit: 'на 8 персон · 3.2 кг', price: 520000, image: '/images/format-banquet.jpg'},
-      {id: 'hot-shashlik', name: 'Шашлык-ассорти', desc: 'баранина, говядина, курица, овощи на углях', unit: 'на 8 персон · 2.8 кг', price: 980000, image: '/images/dish-grill.jpg'},
-      {id: 'hot-salmon', name: 'Лосось на гриле', desc: 'соус из щавеля, молодой картофель', unit: 'на 6 персон · 1.8 кг', price: 760000, image: '/images/dish-salmon.jpg'},
-      {id: 'hot-veg', name: 'Овощи на углях', desc: 'баклажан, кабачок, перец, зелёное масло', unit: 'на 6 персон · 1.5 кг', price: 280000, image: '/images/dish-grill.jpg'},
+      {id: 'hot-plov', name: 'Праздничный плов', desc: 'баранина, жёлтая морковь, нут, изюм', unit: 'на 8 персон · 3.2 кг', price: 0, image: '/images/format-banquet.jpg'},
+      {id: 'hot-shashlik', name: 'Шашлык-ассорти', desc: 'баранина, говядина, курица, овощи на углях', unit: 'на 8 персон · 2.8 кг', price: 0, image: '/images/dish-grill.jpg'},
+      {id: 'hot-salmon', name: 'Лосось на гриле', desc: 'соус из щавеля, молодой картофель', unit: 'на 6 персон · 1.8 кг', price: 0, image: '/images/dish-salmon.jpg'},
+      {id: 'hot-veg', name: 'Овощи на углях', desc: 'баклажан, кабачок, перец, зелёное масло', unit: 'на 6 персон · 1.5 кг', price: 0, image: '/images/dish-grill.jpg'},
     ],
   },
   {
     id: 'desserts',
     title: 'Десерты',
     items: [
-      {id: 'des-baklava', name: 'Мини-пахлава с фисташкой', desc: 'фисташка, горный мёд, сливочное масло', unit: '24 шт · 720 г', price: 260000, image: '/images/dish-dessert.jpg'},
-      {id: 'des-panna', name: 'Панна-котта с облепихой', desc: 'сливки, ваниль, облепиховый соус', unit: '12 шт · 960 г', price: 250000, image: '/images/promo-cake.jpg'},
-      {id: 'des-eclairs', name: 'Эклеры ассорти', desc: 'ваниль, шоколад, малина', unit: '16 шт · 640 г', price: 290000, image: '/images/dish-dessert.jpg'},
-      {id: 'des-fruits', name: 'Сезонные фрукты', desc: 'отборная фруктовая тарелка на стол', unit: '2 кг', price: 220000, image: '/images/format-buffet.jpg'},
+      {id: 'des-baklava', name: 'Мини-пахлава с фисташкой', desc: 'фисташка, горный мёд, сливочное масло', unit: '24 шт · 720 г', price: 0, image: '/images/dish-dessert.jpg'},
+      {id: 'des-panna', name: 'Панна-котта с облепихой', desc: 'сливки, ваниль, облепиховый соус', unit: '12 шт · 960 г', price: 0, image: '/images/promo-cake.jpg'},
+      {id: 'des-eclairs', name: 'Эклеры ассорти', desc: 'ваниль, шоколад, малина', unit: '16 шт · 640 г', price: 0, image: '/images/dish-dessert.jpg'},
+      {id: 'des-fruits', name: 'Сезонные фрукты', desc: 'отборная фруктовая тарелка на стол', unit: '2 кг', price: 0, image: '/images/format-buffet.jpg'},
     ],
   },
   {
     id: 'drinks',
     title: 'Напитки',
     items: [
-      {id: 'drk-tarkhun', name: 'Лимонад тархун-лайм', desc: 'свежий тархун, лайм, газированная вода', unit: '2 л · в графинах', price: 140000, image: '/images/format-buffet.jpg'},
-      {id: 'drk-compote', name: 'Компот из сухофруктов', desc: 'курага, чернослив, яблоко', unit: '2 л · в графинах', price: 90000, image: '/images/format-banquet.jpg'},
-      {id: 'drk-tea', name: 'Зелёный чай с навватом', desc: 'в термосе, лимон и восточные сладости', unit: '2 л · 10 чашек', price: 60000, image: '/images/format-coffee.jpg'},
-      {id: 'drk-coffee', name: 'Фильтр-кофе свежеобжаренный', desc: 'молоко, сливки и тростниковый сахар отдельно', unit: '2 л · 10 чашек', price: 120000, image: '/images/format-coffee.jpg'},
+      {id: 'drk-tarkhun', name: 'Лимонад тархун-лайм', desc: 'свежий тархун, лайм, газированная вода', unit: '2 л · в графинах', price: 0, image: '/images/format-buffet.jpg'},
+      {id: 'drk-compote', name: 'Компот из сухофруктов', desc: 'курага, чернослив, яблоко', unit: '2 л · в графинах', price: 0, image: '/images/format-banquet.jpg'},
+      {id: 'drk-tea', name: 'Зелёный чай с навватом', desc: 'в термосе, лимон и восточные сладости', unit: '2 л · 10 чашек', price: 0, image: '/images/format-coffee.jpg'},
+      {id: 'drk-coffee', name: 'Фильтр-кофе свежеобжаренный', desc: 'молоко, сливки и тростниковый сахар отдельно', unit: '2 л · 10 чашек', price: 0, image: '/images/format-coffee.jpg'},
     ],
   },
 ];
@@ -261,7 +261,7 @@ export const CASES = [
     subtitle: 'Стратегическая сессия для управляющей команды',
     format: 'Доставка + фуршет под ключ',
     guests: 45,
-    budget: 11700000,
+    budget: 0,
     image: '/images/format-buffet.jpg',
     tasks: [
       'Организовать питание за 20 минут без перерыва рабочего ритма',
@@ -275,7 +275,7 @@ export const CASES = [
     subtitle: 'Торжественный вечер с официантами и шеф-поваром',
     format: 'Выездной банкет + фарфор',
     guests: 80,
-    budget: 41600000,
+    budget: 0,
     image: '/images/format-banquet.jpg',
     tasks: [
       'Сбалансированное меню: холодные закуски, 2 горячих и ташкентский плов',
@@ -307,8 +307,8 @@ export const REVIEWS = [
 /** Посуда: выбирается один вариант. Цена — за гостя. */
 export const TABLEWARE = [
   {id: 'eco', title: 'Одноразовая эко', text: 'Крафт и бамбук. Подходит для ланчей и кофе-брейков.', price: 0},
-  {id: 'porcelain', title: 'Фарфор и стекло', text: 'Белый фарфор, бокалы, стальные приборы.', price: 25000},
-  {id: 'premium', title: 'Премиум-сервировка', text: 'Дизайнерская посуда, хрусталь, подстановочные тарелки.', price: 45000},
+  {id: 'porcelain', title: 'Фарфор и стекло', text: 'Белый фарфор, бокалы, стальные приборы.', price: 0},
+  {id: 'premium', title: 'Премиум-сервировка', text: 'Дизайнерская посуда, хрусталь, подстановочные тарелки.', price: 0},
 ];
 
 export type Extra = {
@@ -323,13 +323,13 @@ export type Extra = {
 };
 
 export const EXTRAS: Extra[] = [
-  {id: 'cocktail-tables', group: 'furniture', title: 'Фуршетные столы', text: 'Высокие коктейльные столы со стрейч-чехлами.', price: 150000, per: 12, unit: 'стол'},
-  {id: 'round-tables', group: 'furniture', title: 'Банкетные столы', text: 'Круглые столы на 8 гостей.', price: 200000, per: 8, unit: 'стол'},
-  {id: 'chairs', group: 'furniture', title: 'Стулья', text: 'Стулья «Кьявари» с мягкой подушкой.', price: 15000, per: 1, unit: 'стул'},
-  {id: 'textile', group: 'furniture', title: 'Текстиль', text: 'Скатерти и тканевые салфетки в выбранном цвете.', price: 12000, per: 1, unit: 'комплект'},
-  {id: 'waiters', group: 'staff', title: 'Официанты', text: 'Один официант на 15 гостей, на всё событие.', price: 400000, per: 15, unit: 'официант'},
-  {id: 'barman', group: 'staff', title: 'Бармен', text: 'Лимонад-бар: тархун, цитрус, фильтр-кофе, чай.', price: 600000, per: 60, unit: 'бармен'},
-  {id: 'chef', group: 'staff', title: 'Шеф на площадке', text: 'Финальная подача горячего и контроль стола.', price: 900000, per: 150, unit: 'шеф'},
+  {id: 'cocktail-tables', group: 'furniture', title: 'Фуршетные столы', text: 'Высокие коктейльные столы со стрейч-чехлами.', price: 0, per: 12, unit: 'стол'},
+  {id: 'round-tables', group: 'furniture', title: 'Банкетные столы', text: 'Круглые столы на 8 гостей.', price: 0, per: 8, unit: 'стол'},
+  {id: 'chairs', group: 'furniture', title: 'Стулья', text: 'Стулья «Кьявари» с мягкой подушкой.', price: 0, per: 1, unit: 'стул'},
+  {id: 'textile', group: 'furniture', title: 'Текстиль', text: 'Скатерти и тканевые салфетки в выбранном цвете.', price: 0, per: 1, unit: 'комплект'},
+  {id: 'waiters', group: 'staff', title: 'Официанты', text: 'Один официант на 15 гостей, на всё событие.', price: 0, per: 15, unit: 'официант'},
+  {id: 'barman', group: 'staff', title: 'Бармен', text: 'Лимонад-бар: тархун, цитрус, фильтр-кофе, чай.', price: 0, per: 60, unit: 'бармен'},
+  {id: 'chef', group: 'staff', title: 'Шеф на площадке', text: 'Финальная подача горячего и контроль стола.', price: 0, per: 150, unit: 'шеф'},
 ];
 
 export const FEATURES = [
@@ -367,7 +367,7 @@ export const FAQ = [
   },
   {
     q: 'Доставляете ли в Чарвак и Ташкентскую область?',
-    a: 'Да! Внутри ТКАД доставка от 2 500 000 сўм бесплатная (до этой суммы — 50 000 сўм). Выезд в Чарвак, Чимган, Бостанлык, а также корпоративные выезды по Узбекистану согласовываются индивидуально.',
+    a: 'Да! Внутри ТКАД доставка от 0 сўм бесплатная (до этой суммы — 0 сўм). Выезд в Чарвак, Чимган, Бостанлык, а также корпоративные выезды по Узбекистану согласовываются индивидуально.',
   },
   {
     q: 'Как можно оплатить заказ?',
