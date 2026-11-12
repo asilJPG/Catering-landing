@@ -1,39 +1,25 @@
-import {Corporate, Socials} from './components/Corporate';
-import {Extras} from './components/Extras';
-import {Faq} from './components/Faq';
+import {BagDrawer} from './components/BagDrawer';
+import {Configurator} from './components/Configurator';
+import {EquipmentCatalog} from './components/EquipmentCatalog';
 import {Footer} from './components/Footer';
-import {Formats} from './components/Formats';
-import {Header} from './components/Header';
-import {Hero, Promo} from './components/Hero';
-import {MainMenu} from './components/MainMenu';
-import {Menus} from './components/Menus';
-import {Order, OrderBar} from './components/Order';
-import {Cases, DeliveryAndPayment, Features, KitchenUniqueness, Reviews, Steps} from './components/Sections';
+import {MenuCatalog} from './components/MenuCatalog';
+import {Navbar} from './components/Navbar';
+import {PackagesSection} from './components/PackagesSection';
+import {Showcase} from './components/Showcase';
 
 export default function App() {
   return (
     <>
-      <Header />
+      <Navbar />
       <main>
-        <Hero />
-        <Promo />
-        <Features />
-        <Formats />
-        <Menus />
-        <MainMenu />
-        <KitchenUniqueness />
-        <Extras />
-        <Cases />
-        <Order />
-        <Steps />
-        <Reviews />
-        <DeliveryAndPayment />
-        <Corporate />
-        <Socials />
-        <Faq />
+        <Showcase />
+        <MenuCatalog />
+        <EquipmentCatalog />
+        <PackagesSection />
+        <Configurator />
       </main>
       <Footer />
-      <OrderBar />
+      <BagDrawer />
     </>
   );
 }
